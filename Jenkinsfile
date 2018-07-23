@@ -1,22 +1,23 @@
 node ('master') {
     
     withEnv(['JAVA_HOME=/devops_tools/java/jdk', 'JRE_HOME=/devops_tools/java/jre']) {
-	checkout scm	
+	checkout scm
+	    
+        withMaven(maven: 'M3') {
 	
-	stage('Build') {
-		 withMaven(maven: 'M3') {
-			sh 'mvn clean verify -DskipITs=true'
-		 }
-	}
-	    
-        stage('Results') {
-	    junit '**/target/surefire-reports/TEST-*.xml'
-	    archive 'target/*.jar'
-	}
-	    
-	stage('SonarQube analysis') {
-		//def sonarqubeScannerHome = tool name: 'default', type: 'hudson.plugins.sonar.SonarRunnerInstallation'
- 		withMaven(maven: 'M3') {	
+		stage('Build & Unit test') {
+			sh 'mvn clean verify -DskipITs=true';
+			junit '**/target/surefire-reports/TEST-*.xml'
+			archive 'target/*.jar'
+		}
+
+		stage('Results') {
+		    junit '**/target/surefire-reports/TEST-*.xml'
+		    archive 'target/*.jar'
+		}
+
+		stage('SonarQube analysis') {
+			//def sonarqubeScannerHome = tool name: 'default', type: 'hudson.plugins.sonar.SonarRunnerInstallation'
 			withSonarQubeEnv('default') {
 				// requires SonarQube Scanner for Maven 3.2+
 				//sh 'mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.2:sonar'
@@ -25,6 +26,6 @@ node ('master') {
 			}
 		}
 	}
-    }   
+    }
 }
 
