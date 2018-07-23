@@ -1,4 +1,4 @@
-node ('docker') {
+node ('master') {
     withEnv(['JAVA_HOME=/devops_tools/java/jdk', 'JRE_HOME=/devops_tools/java/jre']) {
 		    
 	stage('Poll') {
