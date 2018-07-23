@@ -7,7 +7,7 @@ node ('master') {
 		 withMaven(maven: 'M3') {
 			sh 'mvn clean verify -DskipITs=true'
 		 }
-	} 
+	}
     
         stage('Results') {
             junit '**/target/surefire-reports/TEST-*.xml'
@@ -25,5 +25,4 @@ node ('master') {
 		archive 'target/*.jar'
 	}
 	*/
-    }
 }
