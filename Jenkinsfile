@@ -1,5 +1,6 @@
 node ('docker') {
-	
+    withEnv(['JAVA_HOME=/devops_tools/java/jdk', 'JRE_HOME=/devops_tools/java/jre']) {
+		    
 	stage('Poll') {
 		scm checkout
 	}
@@ -19,4 +20,5 @@ node ('docker') {
 		junit '**/target/failsafe-reports/TEST-*.xml'
 		archive 'target/*.jar'
 	}
+    }
 }
