@@ -8,14 +8,18 @@ node ('master') {
 			sh 'mvn clean verify -DskipITs=true'
 		 }
 	}
-    
+	    
+	stage('SonarQube analysis') {
+		withSonarQubeEnv('My SonarQube Server') {
+			// requires SonarQube Scanner for Maven 3.2+
+			sh 'mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.2:sonar'
+		}
+	}
+	    
         stage('Results') {
             junit '**/target/surefire-reports/TEST-*.xml'
             archive 'target/*.jar'
 	}
-	    
-	stage('Static Code Analysis') {
-		sh 'mvn clean verify sonar:sonar -Dsonar.projectName=example-project -Dsonar.projectKey=example-project -Dsonar.projectVersion=$BUILD_NUMBER';
-	}
+
     }
 }
