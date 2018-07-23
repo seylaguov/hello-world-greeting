@@ -11,7 +11,7 @@ node ('master') {
 	    
 	stage('SonarQube analysis') {
 		def sonarqubeScannerHome = tool name: 'default', type: 'hudson.plugins.sonar.SonarRunnerInstallation'
-		withSonarQubeEnv('SQ Server') {
+		withSonarQubeEnv('default') {
 			// requires SonarQube Scanner for Maven 3.2+
 			//sh 'mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.2:sonar'
 			//sh 'mvn clean verify sonar:sonar -Dsonar.projectName=example-project -Dsonar.projectKey=example-project -Dsonar.projectVersion=$BUILD_NUMBER';
