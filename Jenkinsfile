@@ -1,7 +1,7 @@
 node ('master') {
     
     withEnv(['JAVA_HOME=/devops_tools/java/jdk', 'JRE_HOME=/devops_tools/java/jre']) {
-	scm checkout	
+	checkout scm	
 	
 	stage('Build & Unit test') {
 		sh 'mvn clean verify -DskipITs=true';
