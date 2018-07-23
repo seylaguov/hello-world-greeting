@@ -3,11 +3,11 @@ node ('master') {
     withEnv(['JAVA_HOME=/devops_tools/java/jdk', 'JRE_HOME=/devops_tools/java/jre']) {
 	checkout scm	
 	
-	stage('Build') {
+	/*stage('Build') {
 		 withMaven(maven: 'M3') {
 			sh 'mvn clean verify -DskipITs=true'
 		 }
-	}
+	}*/
 	    
 	stage('SonarQube analysis') {
 		def sonarqubeScannerHome = tool name: 'default', type: 'hudson.plugins.sonar.SonarRunnerInstallation'
@@ -18,11 +18,12 @@ node ('master') {
 			sh "${sonarqubeScannerHome}/bin/sonar-runner -Dsonar.host.url=${SONAR_HOST_URL}  -Dsonar.login=${SONAR_AUTH_TOKEN}    -Dsonar.projectName=xxx -Dsonar.projectVersion=xxx -Dsonar.projectKey=xxx -Dsonar.sources=./src/main"
 		}
 	}
-	    
-        stage('Results') {
-            junit '**/target/surefire-reports/TEST-*.xml'
-            archive 'target/*.jar'
-	}
+	
+	 
+        //stage('Results') {
+        //    junit '**/target/surefire-reports/TEST-*.xml'
+        //    archive 'target/*.jar'
+	//}
 
     }
 }
